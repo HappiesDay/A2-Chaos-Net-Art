@@ -34,12 +34,12 @@ class Line{
       this.endX = Math.random() * this.cnv.width
       this.endY = Math.random() * this.cnv.height
       this.lineWidth = Math.floor(Math.random() * 15 + 1)
-      
+      this.hue = Math.floor(Math.random() * 360)
 
    }
 
    draw(context){
-      context.strokeStyle = 'red'
+      context.strokeStyle = 'hsl(' + this.hue + ',100%,50%)'
       context.lineWidth = this.lineWidth
       context.beginPath()
       context.moveTo(this.startX, this.startY)
@@ -48,6 +48,14 @@ class Line{
    }
 }
 
-const line1 = new Line(cnv)
-line1.draw(ctx)
+const linesArray = []
+for (let i = 0; i < 10; i ++){
+   linesArray.push(new Line(cnv))
+
+}
+
+console.log(linesArray)
+linesArray.forEach(line => line.draw(ctx))
+
+
 console.log(ctx)
