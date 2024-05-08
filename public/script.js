@@ -72,6 +72,7 @@ function animate(){
    console.log('animating')
 }
 
+animate()
 
 
 console.log(ctx)
