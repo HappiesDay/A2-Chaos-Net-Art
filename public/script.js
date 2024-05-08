@@ -8,7 +8,7 @@ cnv.height = innerHeight
 const ctx = cnv.getContext (`2d`)
 
 const draw_frame = () => {
-   ctx.fillStyle = `turquoise`
+   ctx.fillStyle = `red`
    ctx.fillRect (0, 0, innerWidth, innerHeight)
 
    requestAnimationFrame (draw_frame)
