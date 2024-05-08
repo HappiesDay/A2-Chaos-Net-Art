@@ -41,7 +41,7 @@ class Line{
    draw(context){
       context.lineWidth = this.lineWidth
       context.beginPath()
-      context.moveTO(this.startX, this.startY)
+      context.moveTo(this.startX, this.startY)
       context.lineTo(this.endX, this.endY)
       context.stroke()
    }
