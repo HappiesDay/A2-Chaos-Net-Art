@@ -49,3 +49,4 @@ class Line{
 
 const line1 = new Line(cnv)
 line1.draw(ctx)
+console.log('ctx')
