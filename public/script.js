@@ -69,8 +69,8 @@ linesArray.forEach(line => line.draw(ctx))
 function animate(){
    
    requestAnimationFrame(animate)
-   console.log('animating')
 }
+console.log('animating')
 
 animate()
 
