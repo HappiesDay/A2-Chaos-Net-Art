@@ -39,6 +39,7 @@ class Line{
    }
 
    draw(context){
+      context.strokeStyle = 'red'
       context.lineWidth = this.lineWidth
       context.beginPath()
       context.moveTo(this.startX, this.startY)
