@@ -22,6 +22,9 @@ ctx.shadowOffsetY = 10; // More noticeable offset
 ctx.shadowBlur = 20;    // Added blur for better visibility
 ctx.shadowColor = 'black';
 
+//reset Count
+let resetCount = 0
+
 //canvas size and resize
 cnv.width = innerWidth
 cnv.height = innerHeight
@@ -50,7 +53,6 @@ class Line{
       this.curve = 0
       this.va = Math.random() * 0.5 - 0.25
       this.vc = Math.random() * 0.4 - 0.2    
-      this.resetCount = 0
       
     //   this.vc = 0.25
    }
@@ -98,13 +100,13 @@ class Line{
             this.timer = 0
             this.angle = 0
             this.curve = 0
-            this.resetCount++;
-            if (this.resetCount >= 20) {
+            resetCount++;
+            if (resetCount >= 20) {
                 this.angle = 0
                 this.curve = 0
                 this.va = Math.random() * 0.5 - 0.25;
                 this.vc = Math.random() * 0.4 - 0.2;
-                this.resetCount = 0;
+                resetCount = 0;
             }
             }
             
