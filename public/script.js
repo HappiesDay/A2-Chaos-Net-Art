@@ -35,6 +35,10 @@ class Line{
       this.lineWidth = Math.floor(Math.random() * 15 + 1)
       this.hue = Math.floor(Math.random() * 360)
       this.maxLength = 5
+      this.speedX = 2
+      this.speedY = 6
+      this.lifeSpan = thix.maxLength * 10
+      this.timer = 0
    }
 
    draw(context){
@@ -50,18 +54,22 @@ class Line{
       context.stroke()
    }
    update(){
-      this.x = Math.random() * this.cnv.width
-      this.y = Math.random() * this.cnv.height
-      this.history.push({x: this.x, y: this.y})
-      if (this.history.length > this.maxLength)
+      this.timer++
+      if (this.timer < this.lifeSpan)
          {
-            this.history.shift()
-         }
+            this.x = this.speedX + Math.random() * 50 -25
+            this.y = this.speedY + Math.random() * 50 -25
+            this.history.push({x: this.x, y: this.y})
+            if (this.history.length > this.maxLength)
+               {
+                  this.history.shift()
+               }
+            }
    }
 }
 
 const linesArray = []
-const numberOfLines = 2
+const numberOfLines = 20
 for (let i = 0; i < numberOfLines; i ++){
    linesArray.push(new Line(cnv))
 
