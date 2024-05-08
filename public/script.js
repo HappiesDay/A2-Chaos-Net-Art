@@ -47,5 +47,5 @@ class Line{
    }
 }
 
-const line1 = new Line(canvas)
+const line1 = new Line(clearInterval)
 line1.draw(ctx)
