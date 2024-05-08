@@ -31,8 +31,7 @@ class Line{
       this.cnv = cnv
       this.startX = Math.random() * this.cnv.width
       this.startY = Math.random() * this.cnv.height
-      this.endX = Math.random() * this.cnv.width
-      this.endY = Math.random() * this.cnv.height
+      this.history = [{x: this.x, y: this.y}]
       this.lineWidth = Math.floor(Math.random() * 15 + 1)
       this.hue = Math.floor(Math.random() * 360)
 
@@ -42,7 +41,16 @@ class Line{
       context.strokeStyle = 'hsl(' + this.hue + ',100%,50%)'
       context.lineWidth = this.lineWidth
       context.beginPath()
-      context.moveTo(this.startX, this.startY)
+      context.moveTo(this.history[0].x, this.history[0].y)
+      for (let i = 0; i < 3; i++){
+         this.x = Math.random() * this.cnv.width
+         this.y = Math.random() * this.cnv.height
+         this.history.push({x: this.x, y: this.y})
+      }
+      for (let i = 0; i < this.history.length; i++){
+         context.lineTo(this.history[i].x, this.history[i].y)
+      }
+
       context.lineTo(this.endX, this.endY)
       context.stroke()
    }
@@ -56,6 +64,9 @@ for (let i = 0; i < 10; i ++){
 
 console.log(linesArray)
 linesArray.forEach(line => line.draw(ctx))
+
+
+
 
 
 console.log(ctx)
