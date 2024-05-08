@@ -14,7 +14,7 @@ const ctx = cnv.getContext (`2d`)
 
 //
 ctx.lineWidth = 10
-ctx.strokeStyle = 'magenta'
+ctx.strokeStyle = 'red'
 
 //canvas size and resize
 cnv.width = innerWidth
