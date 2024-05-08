@@ -37,7 +37,7 @@ class Line{
       this.maxLength = 5
       this.speedX = 2
       this.speedY = 6
-      this.lifeSpan = thix.maxLength * 10
+      this.lifeSpan = this.maxLength * 10
       this.timer = 0
    }
 
