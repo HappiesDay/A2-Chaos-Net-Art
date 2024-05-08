@@ -27,12 +27,12 @@ window.onresize = () => {
 
 //class Line
 class Line{
-   constructor(canvas){
-      this.canvas = cnv
-      this.startX = Math.random() * this.canvas.width
-      this.startY = Math.random() * this.canvas.height
-      this.endX = Math.random() * this.canvas.width
-      this.endY = Math.random() * this.canvas.height
+   constructor(cnv){
+      this.cnv = cnv
+      this.startX = Math.random() * this.cnv.width
+      this.startY = Math.random() * this.cnv.height
+      this.endX = Math.random() * this.cnv.width
+      this.endY = Math.random() * this.cnv.height
       this.lineWidth = Math.floor(Math.random() * 15 + 1)
       
 
