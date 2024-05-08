@@ -63,11 +63,11 @@ for (let i = 0; i < 10; i ++){
 }
 
 console.log(linesArray)
-linesArray.forEach(line => line.draw(ctx))
 
 //Recursion
 function animate(){
-   
+   linesArray.forEach(line => line.draw(ctx))
+
    requestAnimationFrame(animate)
 }
 console.log('animating')
