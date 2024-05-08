@@ -52,15 +52,15 @@ class Line{
       context.stroke()
    }
    update(){
-      this.timer++
-      if (this.timer < this.lifeSpan){
-            this.x += this.speedX + Math.random() * 50 -25
-            this.y += this.speedY + Math.random() * 50 -25
+      // this.timer++
+      // if (this.timer < this.lifeSpan){
+            this.x += this.speedX + Math.random() * 50 - 25
+            this.y += this.speedY + Math.random() * 50 - 25
             this.history.push({x: this.x, y: this.y})
             if (this.history.length > this.maxLength){
                   this.history.shift()
             }
-      }
+      // }
    }
 }
 
