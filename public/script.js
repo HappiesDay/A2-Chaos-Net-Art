@@ -66,7 +66,7 @@ console.log(linesArray)
 
 //Recursion
 function animate(){
-   ctx.clearRect(0, 0, cnv.width/2, cnv.height/2)
+   ctx.clearRect(0, 0, cnv.width, cnv.height)
    linesArray.forEach(line => line.draw(ctx))
 
    requestAnimationFrame(animate)
