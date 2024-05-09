@@ -87,6 +87,7 @@ class Line{
             }
             else if (this.history.length <= 1){
                 this.reset()
+                
             }
             else {
                 this.history.shift()
@@ -100,13 +101,15 @@ class Line{
             this.timer = 0
             this.angle = 0
             this.curve = 0
-            resetCount++;
+            resetCount = resetCount + 1;
+            console.log(resetCount)
             if (resetCount >= 20) {
                 this.angle = 0
                 this.curve = 0
                 this.va = Math.random() * 0.5 - 0.25;
                 this.vc = Math.random() * 0.4 - 0.2;
                 resetCount = 0;
+                
             }
             }
             
@@ -139,4 +142,3 @@ animate()
 console.log('animating')
 console.log(ctx)
 console.log(linesArray)
-console.log(resetCount)
