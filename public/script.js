@@ -269,7 +269,7 @@ class Effect {
     }
 
     draw(context){
-        this.particleArray.forEach(particle => particle.draw(context2))
+        this.particleArray.forEach(particle => particle.draw(context))
     }
     update(){
         this.particleArray.forEach(particle => particle.update())
