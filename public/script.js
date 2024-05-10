@@ -141,7 +141,7 @@ function animateLines() {
     if (lineAnimationActive) {
 
         drawText()
-        if (clickTime > 1){
+        if (clickTime > 2){
         ctx.clearRect(0, 0, cnv.width, cnv.height);}
         
         
