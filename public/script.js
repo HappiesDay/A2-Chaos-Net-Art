@@ -10,47 +10,46 @@ cnv.width = innerWidth;
 cnv.height = innerHeight;
 window.onresize = () => {
     cnv.width = innerWidth;
-    cnv.height = innerHeight;
-};
+    cnv.height = innerHeight;};
+
+
+// VISUAL
+
+//Variables and constant-----------------------------------------
 let clickTime = 0
-let textDrawn = false; // Flag to track if text has been drawn
+let textDrawn = false; 
+let resetCount = 0
+let effect; 
+let lineAnimationActive = true;  
+let particleAnimationActive = false
+const linesArray = [];
+const numberOfLines = 20;
+
+// Functions------------------------------------------------------
 // Function to draw the text
 function drawText() {
     if (!textDrawn) { // Check if text has not been drawn yet
-        // Set text properties
+        //Text properties
         ctx.fillStyle = 'magenta';
         ctx.font = "bold 40px Arial";
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
 
-        // Get the width and height of the canvas
-        var canvasWidth = cnv.width;
-        var canvasHeight = cnv.height;
-
-        // Calculate the center coordinates
-        var centerX = canvasWidth / 2;
-        var centerY = canvasHeight / 2;
-
         // Clear the canvas
-        ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+        ctx.clearRect(0, 0, cnv.width / 2, cnv.height / 2);
 
         // Draw the text
         var randomIndex = Math.random() < 0.5 ? 0 : 1;
         var texts = ["CLICK AND DRAG", "DISORDER REIGNS IN POINTER"];
         var selectedText = texts[randomIndex];
-        ctx.fillText(selectedText, centerX, centerY);
-
-        textDrawn = true; // Set the flag to true, indicating text has been drawn
+        ctx.fillText(selectedText, cnv.width / 2, cnv.height / 2);
+        textDrawn = true; 
 
     }
 }
 
-// Initial drawing of the text
 
-
-
-let resetCount = 0
-
+// Animating lines sections---------------------------------------
 // Class to handle the line drawing
 class Line {
     constructor(cnv) {
@@ -125,36 +124,22 @@ class Line {
         
     }
 }
+ 
 
-// Create an array of Line objects
-const linesArray = [];
-const numberOfLines = 20;
+// Function animating lines
 for (let i = 0; i < numberOfLines; i++) {
     linesArray.push(new Line(cnv));
 }
-
-// Line animation loop
- // Control flag for line animation
-
-console.log(clickTime)
-
-
 function animateLines() {
-    
     if (lineAnimationActive) {
-
-        drawText()
+        drawText();
         if (clickTime > 3){
         ctx.clearRect(0, 0, cnv.width, cnv.height);}
-        
-        
-
-        linesArray.forEach(line => {
+        linesArray.forEach(line => 
+        {
             line.draw(ctx);
             line.update();
-             
         });
-        
         
         requestAnimationFrame(animateLines);
         
@@ -162,7 +147,9 @@ function animateLines() {
     
 }
 
-// Particle system setup
+
+// Particle sections---------------------------------------------
+// Particle system setup (velocity, friction, appearing position,etc)
 class Particle {
     constructor(effect, x, y, color) {
         this.effect = effect;
@@ -205,7 +192,7 @@ class Particle {
     }
 }
 
-// Class to manage particle effects
+// Turning image to particle and mouse interaction
 class Effect {
     constructor(width, height) {
         this.width = width;
@@ -291,20 +278,11 @@ class Effect {
     }
 }
 
-
-// Start line animation initially
-// Class definitions (Line, Particle, Effect) are assumed to be correctly defined.
-
-let effect; // Global variable for the effect instance
-let lineAnimationActive = true;  // Initial state to animate lines
-let particleAnimationActive = false
-
-
 function animateParticles() {
-    if (particleAnimationActive) { // Ensure this checks the correct flag
+    if (particleAnimationActive) { 
 
-    if (!lineAnimationActive && effect) { // Check if effect is defined and line animation is inactive
-        // ctx.clearRect(0, 0, cnv.width, cnv.height);
+    if (!lineAnimationActive && effect) {
+        // ctx.clearRect(0, 0, cnv.width, cnv.height); //Uncomment to reset canvas
         effect.draw(ctx);
         effect.update();
   
@@ -317,7 +295,7 @@ function animateParticles() {
 cnv.addEventListener('click', function() {
     clickTime++
     lineAnimationActive = !lineAnimationActive;
-    particleAnimationActive = !particleAnimationActive; // Toggle particle animation state as well
+    particleAnimationActive = !particleAnimationActive;
 
     if (particleAnimationActive) {
         // Stop lines and ensure particle effect runs
@@ -326,48 +304,21 @@ cnv.addEventListener('click', function() {
         }
         effect.updateImageData(cnv);
         effect.init(ctx);
-        animateParticles(); // Start or continue particle animation
+        animateParticles(); 
+        // Start or continue particle animation
     } else {
-        // Stop particles and ensure line animation runs
         animateLines();
+        // Stop particles and ensure line animation runs
     }
 });
-
-// Start with line animation
-
 animateLines();
 
-
-// Start with line animation
-
-console.log(lineAnimationActive)
-// if (clickTime > 2){
-//     animateParticles(); 
-//             ctx.clearRect(0, 0, cnv.width, cnv.height);
-
-// }
-
-
-
-
-
-
-
-
-
+//End of Visual section==========================================
 
 
 //AUDIO 
 
-const audio_context = new AudioContext ()
-
-// getting the audio context function
-function init_audio() {
-    if (!audio_context) {
-        audio_context = new (window.AudioContext || window.webkitAudioContext)();
-    }
-}
-
+//Variable and constant------------------------------------------
 // array of notes for the sounds
 const notes = [61, 66, 69, 73, 74, 73, 69, 66]
 
@@ -384,6 +335,16 @@ let period = 200
 // declaring a mutable variable for
 // the length of the note
 let len = 0
+const audio_context = new AudioContext ()
+
+// function sections---------------------------------------------
+// getting the audio context function
+function init_audio() {
+    if (!audio_context) {
+        audio_context = new (window.AudioContext || window.webkitAudioContext)();
+    }
+}
+
 function next_note () {
 
     // use the iterator to select a note from 
@@ -410,8 +371,6 @@ function note_player () {
     // after period milliseconds
     if (running) setTimeout (note_player, period)
 }
-
-
 
 function play_note (note, length) {
 
@@ -494,6 +453,10 @@ cnv.onpointerleave = e => {
     running = false
 }
 
-// function that handles the mouse event 
-// when cursor enters the canvas
-// it will call the sortPixels function from the sorter
+
+//END of AUDIO sections========================================
+
+
+//console + bug society
+console.log(clickTime)
+console.log(lineAnimationActive)
