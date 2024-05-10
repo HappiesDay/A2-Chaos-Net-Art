@@ -313,6 +313,10 @@ function animateParticles() {
 // Setup event listener to toggle animations
 cnv.addEventListener('click', function() {
     clickTime++
+    if (clickTime >3)
+        {
+            clickTime = 0
+        }
     lineAnimationActive = !lineAnimationActive;
     particleAnimationActive = !particleAnimationActive; // Toggle particle animation state as well
 
