@@ -36,7 +36,7 @@ function drawText() {
 
         // Draw the text
         var randomIndex = Math.random() < 0.5 ? 0 : 1;
-        var texts = ["CLICK AND DRAG", "CHAOS TRAPPED IN MOUSE"];
+        var texts = ["CLICK AND DRAG", "DISORDER REIGNS IN POINTER"];
         var selectedText = texts[randomIndex];
         ctx.fillText(selectedText, centerX, centerY);
 
