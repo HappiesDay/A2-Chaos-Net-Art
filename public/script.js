@@ -35,7 +35,7 @@ function drawText() {
         ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 
         // Draw the text
-        ctx.fillText("CLICK & DRAG", centerX, centerY);
+        ctx.fillText("CLICKED AND DRAGGED", centerX, centerY);
 
         textDrawn = true; // Set the flag to true, indicating text has been drawn
 
@@ -141,7 +141,7 @@ function animateLines() {
     if (lineAnimationActive) {
 
         drawText()
-        if (clickTime > 2){
+        if (clickTime > 3){
         ctx.clearRect(0, 0, cnv.width, cnv.height);}
         
         
@@ -313,10 +313,6 @@ function animateParticles() {
 // Setup event listener to toggle animations
 cnv.addEventListener('click', function() {
     clickTime++
-    if (clickTime >3)
-        {
-            clickTime = 0
-        }
     lineAnimationActive = !lineAnimationActive;
     particleAnimationActive = !particleAnimationActive; // Toggle particle animation state as well
 
