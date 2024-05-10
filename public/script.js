@@ -35,7 +35,7 @@ function drawText() {
         ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 
         // Draw the text
-        ctx.fillText("CLICKED", centerX, centerY);
+        ctx.fillText("CLICK & DRAG", centerX, centerY);
 
         textDrawn = true; // Set the flag to true, indicating text has been drawn
 
