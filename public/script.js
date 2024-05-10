@@ -35,7 +35,10 @@ function drawText() {
         ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 
         // Draw the text
-        ctx.fillText("CLICKED AND DRAGGED", centerX, centerY);
+        var randomIndex = Math.random() < 0.5 ? 0 : 1;
+        var texts = ["CLICK AND DRAG", "CHAOS TRAPPED IN MOUSE"];
+        var selectedText = texts[randomIndex];
+        ctx.fillText(selectedText, centerX, centerY);
 
         textDrawn = true; // Set the flag to true, indicating text has been drawn
 
