@@ -154,6 +154,7 @@ function animateLines() {
         drawText();
 
         // Delay clearing the canvas to allow text conversion.
+        // Delay clearing for more chaos
         if (clickTime > 3){
         clickTime = 0
         ctx.clearRect(0, 0, cnv.width, cnv.height);}
