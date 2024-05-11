@@ -5,7 +5,7 @@ const cnv = document.getElementById('cnv_element');
 const ctx = cnv.getContext('2d', { willReadFrequently: true });
 
 
-// Resize canvas to window
+// Default set up
 cnv.width = innerWidth;
 cnv.height = innerHeight;
 window.onresize = () => {
@@ -29,6 +29,7 @@ const numberOfLines = 20;
 // Function to draw the text
 function drawText() {
     if (!textDrawn) { // Check if text has not been drawn yet
+
         //Text properties
         ctx.fillStyle = 'magenta';
         ctx.font = "bold 40px Arial";
@@ -38,7 +39,7 @@ function drawText() {
         // Clear the canvas
         ctx.clearRect(0, 0, cnv.width / 2, cnv.height / 2);
 
-        // Draw the text
+        // Draw the text and randomize the 2 instructions
         var randomIndex = Math.random() < 0.5 ? 0 : 1;
         var texts = ["CLICK AND DRAG", "DISORDER REIGNS IN POINTER"];
         var selectedText = texts[randomIndex];
@@ -53,6 +54,8 @@ function drawText() {
 // Class to handle the line drawing
 class Line {
     constructor(cnv) {
+
+        // Line default set up
         this.cnv = cnv;
         this.x = Math.random() * this.cnv.width;
         this.y = Math.random() * this.cnv.height;
@@ -72,6 +75,8 @@ class Line {
     }
 
     draw(context) {
+
+        //Line set up: Color, width, start and end point
         context.strokeStyle = `hsl(${this.hue}, 100%, 50%)`;
         context.lineWidth = this.lineWidth;
         context.beginPath();
@@ -84,13 +89,21 @@ class Line {
 
     update() {
         this.timer++;
+        
+        //Change the angle so it spiral 
         this.angle += this.va;
         this.curve += this.vc;
+
+        //Line lifespan condition
         if (this.timer < this.lifeSpan) {
+
+            //After certain time, make the lines reverses their direction
             if (this.timer > this.preCalculate) {
                 this.vc *= -1.2;
                 this.va *= -1.2;
             }
+
+            //Curve math
             this.x += Math.sin(this.angle) * this.curve;
             this.y += Math.cos(this.angle) * this.curve;
             this.history.push({x: this.x, y: this.y});
@@ -106,13 +119,19 @@ class Line {
 
     reset() {
         
+        // Reset the line to default
+        // Not reset their multiplier (va, vc)
         this.x = Math.random() * this.cnv.width;
         this.y = Math.random() * this.cnv.height;
         this.history = [{x: this.x, y: this.y}];
         this.timer = 0;
         this.angle = 0;
         this.curve = 0;
+
+        // Reset Count is to allow straight lines and polygons
         resetCount = resetCount + 1;
+
+        // Periodically reset their angle and curve multiplier
         if (resetCount >= 20) {
             this.angle = 0
             this.curve = 0
@@ -126,21 +145,24 @@ class Line {
 }
  
 
-// Function animating lines
+// Recursion animating lines
 for (let i = 0; i < numberOfLines; i++) {
     linesArray.push(new Line(cnv));
 }
 function animateLines() {
     if (lineAnimationActive) {
         drawText();
+
+        // Delay clearing the canvas to allow text conversion.
         if (clickTime > 3){
         ctx.clearRect(0, 0, cnv.width, cnv.height);}
+
+        // New lines variations
         linesArray.forEach(line => 
         {
             line.draw(ctx);
             line.update();
         });
-        
         requestAnimationFrame(animateLines);
         
     }
@@ -151,6 +173,8 @@ function animateLines() {
 // Particle sections---------------------------------------------
 // Particle system setup (velocity, friction, appearing position,etc)
 class Particle {
+
+    // Default particle set up: position, velocity
     constructor(effect, x, y, color) {
         this.effect = effect;
         this.x = x
@@ -176,24 +200,30 @@ class Particle {
     }
 
     update() {
+
+        // Magnetic repel effect for the mouse and particle
         this.dx = this.effect.mouse.x - this.x;
         this.dy = this.effect.mouse.y - this.y;
         this.distance = this.dx * this.dx + this.dy * this.dy;
         this.force = this.effect.mouse.radius / this.distance;
 
+        // The closer, the stronger the repel force
         if (this.distance < this.effect.mouse.radius) {
             this.angle = Math.atan2(this.dy, this.dx);
             this.vx += this.force * Math.cos(this.angle);
             this.vy += this.force * Math.sin(this.angle);
         }
 
+        // Friction addition
         this.x += (this.vx * this.friction) + (this.originX - this.x) * this.ease;
         this.y += (this.vy * this.friction) + (this.originY - this.y) * this.ease;
     }
 }
 
-// Turning image to particle and mouse interaction
+// Turning image to particle 
 class Effect {
+
+    // Interactive canvas set up
     constructor(width, height) {
         this.width = width;
         this.height = height;
@@ -213,18 +243,20 @@ class Effect {
         });
     }
 
+    // Convert image to data URL
     updateImageData(canvas) {
         console.log(this.particleWaves.length)
-
         this.image = canvas.toDataURL();
     }
-
+    
+    // Initialize the first wave
     init(context) {
-        // Initialize the first wave
         this.addWave(context, this.image);
     }
 
     addWave(context, imageData) {
+
+        // Store the decoded image in array
         const newWave = [];
         const img = new Image();
         img.onload = () => {
@@ -233,11 +265,14 @@ class Effect {
         };
         img.src = imageData;
         this.particleWaves.push(newWave);
+
+        // Delay clearing 
         if (this.particleWaves.length > 1) {
-            this.particleWaves.shift();  // Remove the first wave
+            this.particleWaves.shift();  
         }
     }
 
+    // Similiar principle with the asci cam
     scanImage(context, wave) {
         const pixels = context.getImageData(0, 0, this.width, this.height).data;
         for (let y = 0; y < this.height; y += this.gap) {
@@ -255,6 +290,7 @@ class Effect {
         }
     }
 
+    // Rendering
     draw(context) {
         this.particleWaves.forEach(wave => {
             wave.forEach(particle => particle.draw(context));
@@ -267,6 +303,7 @@ class Effect {
         });
     }
 
+    //Apply drastic changed in their velocities
     warp() {
         this.particleWaves.forEach(wave => {
             wave.forEach(particle => particle.warp());
@@ -278,16 +315,16 @@ class Effect {
     }
 }
 
+// Ensure the correct state 
 function animateParticles() {
     if (particleAnimationActive) { 
-
-    if (!lineAnimationActive && effect) {
-        // ctx.clearRect(0, 0, cnv.width, cnv.height); //Uncomment to reset canvas
-        effect.draw(ctx);
-        effect.update();
-  
-        requestAnimationFrame(animateParticles);
-    }
+        if (!lineAnimationActive && effect) {
+            // ctx.clearRect(0, 0, cnv.width, cnv.height); //Uncomment to reset canvas instantly
+            effect.draw(ctx);
+            effect.update();
+    
+            requestAnimationFrame(animateParticles);
+        }
 }}
 
 
@@ -297,18 +334,19 @@ cnv.addEventListener('click', function() {
     lineAnimationActive = !lineAnimationActive;
     particleAnimationActive = !particleAnimationActive;
 
+    // State condition: Start or continue particle animation
     if (particleAnimationActive) {
-        // Stop lines and ensure particle effect runs
+        // Stop scribbly lines animation and ensure particle effect runs
         if (!effect) {
-            effect = new Effect(cnv.width, cnv.height);
-        }
+            effect = new Effect(cnv.width, cnv.height);}
         effect.updateImageData(cnv);
         effect.init(ctx);
         animateParticles(); 
-        // Start or continue particle animation
-    } else {
+    }
+
+    //Start scribbly lines animation
+    else {
         animateLines();
-        // Stop particles and ensure line animation runs
     }
 });
 animateLines();
