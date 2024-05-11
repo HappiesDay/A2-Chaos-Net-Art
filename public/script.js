@@ -155,6 +155,7 @@ function animateLines() {
 
         // Delay clearing the canvas to allow text conversion.
         if (clickTime > 3){
+        clickTime = 0
         ctx.clearRect(0, 0, cnv.width, cnv.height);}
 
         // New lines variations
